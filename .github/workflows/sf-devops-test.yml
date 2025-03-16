@@ -18,16 +18,19 @@ jobs:
 
       - name: Run schemachange
         env:
-          CONN_FILE: ${{ github.workspace }}/config/connections.toml
+          CONNECTION_FILE_PATH: ${{ github.workspace }}/config/connections.toml
           SNOWFLAKE_PASSWORD: ${{ secrets.SF_PASSWORD }}
 
         run: |
           echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-          echo "Connection File: $CONN_FILE"
-          echo "DATABASE_NAME=$(python -c 'import tomllib; print(tomllib.load($CONN_FILE)["database"]["name"])')" >> $GITHUB_ENV
+          echo "Connection File: $CONNECTION_FILE_PATH"
+          DATABASE_NAME=$(python -c 'import tomllib; print(tomllib.load(open(os.getenv("$CONNECTION_FILE_PATH"), "rb"))["database"])')
+
+          echo "DATABASE_NAME=$DATABASE_NAME"
+          
           python --version
           echo "Step 1: Installing schemachange"
           pip install schemachange
           
           echo "Step 2: Running schemachange"
-          schemachange deploy -f $GITHUB_WORKSPACE/migrations --connections-file-path $CONN_FILE --connection-name 'myconnection' -c DEMO_DB.SCHEMACHANGE.CHANGE_HISTORY  --create-change-history-table
+          schemachange deploy -f $GITHUB_WORKSPACE/migrations --connections-file-path $CONNECTION_FILE_PATH --connection-name 'myconnection' -c DEMO_DB.SCHEMACHANGE.CHANGE_HISTORY  --create-change-history-table
