@@ -16,11 +16,6 @@ jobs:
       - name: Use Python 3.8.x
         uses: actions/setup-python@v5.4.0
 
-      - name: Set Variables
-        env:
-          CONNECTION_FILE_PATH: ${{ github.workspace }}/config/connections.toml
-          SNOWFLAKE_PASSWORD: ${{ secrets.SF_PASSWORD }}
-
       - name: Install yq
         run: |
           sudo apt update
@@ -34,6 +29,9 @@ jobs:
           echo "Database: $DATABASE_NAME"
       
       - name: Run schemachange
+        env:
+          CONNECTION_FILE_PATH: ${{ github.workspace }}/config/connections.toml
+          SNOWFLAKE_PASSWORD: ${{ secrets.SF_PASSWORD }}
         run: |
           python --version
           echo "Step 1: Installing schemachange"
