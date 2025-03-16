@@ -1,0 +1,5 @@
+[myconnection]
+account = "sfpscogs-ragrawal_aws_learning"
+user = "ghuser"
+warehouse = "QUICKSTART_WH"
+database = "DEMO_DB"
