@@ -18,7 +18,7 @@ jobs:
 
       - name: Run schemachange
         env:
-          CONN_FILE: $GITHUB_WORKSPACE/config/connections.toml
+          CONN_FILE: ${GITHUB_WORKSPACE}/config/connections.toml
           SNOWFLAKE_PASSWORD: ${{ secrets.SF_PASSWORD }}
 
         run: |
