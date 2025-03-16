@@ -23,7 +23,7 @@ jobs:
           SNOWFLAKE_PASSWORD: ${{ secrets.SF_PASSWORD }}
 
         run: |
-          echo "DATABASE_NAME=$(python -c 'import toml; print(toml.load("connection.toml")["database"]["name"])')" >> $GITHUB_ENV
+          echo "DATABASE_NAME=$(python -c 'import tomllib; print(toml.load("connection.toml")["database"]["name"])')" >> $GITHUB_ENV
           echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
           python --version
           echo "Step 1: Installing schemachange"
