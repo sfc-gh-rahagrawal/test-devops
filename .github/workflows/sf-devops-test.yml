@@ -16,18 +16,25 @@ jobs:
       - name: Use Python 3.8.x
         uses: actions/setup-python@v5.4.0
 
-      - name: Run schemachange
+      - name: Set Variables
         env:
           CONNECTION_FILE_PATH: ${{ github.workspace }}/config/connections.toml
           SNOWFLAKE_PASSWORD: ${{ secrets.SF_PASSWORD }}
 
+      - name: Install yq
         run: |
-          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-          echo "Connection File: $CONNECTION_FILE_PATH"
-          DATABASE_NAME=$(python -c 'import tomllib, os; print(tomllib.load(open(os.getenv("$CONNECTION_FILE_PATH"), "rb"))["database"])')
-
-          echo "DATABASE_NAME=$DATABASE_NAME"
-          
+          sudo apt update
+          sudo apt install -y jq
+          wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
+          chmod +x /usr/bin/yq
+      
+      - name: Extract Database Name from TOML
+        run: |
+          echo "DATABASE_NAME=$(yq '.myconnection.database' ${{ github.workspace }}/config/connections.toml)" >> $GITHUB_ENV
+          echo "Database: $DATABASE_NAME"
+      
+      - name: Run schemachange
+        run: |
           python --version
           echo "Step 1: Installing schemachange"
           pip install schemachange
