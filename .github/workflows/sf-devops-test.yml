@@ -24,7 +24,7 @@ jobs:
         run: |
           echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
           echo "Connection File: $CONNECTION_FILE_PATH"
-          DATABASE_NAME=$(python -c 'import tomllib; print(tomllib.load(open(os.getenv("$CONNECTION_FILE_PATH"), "rb"))["database"])')
+          DATABASE_NAME=$(python -c 'import tomllib, os; print(tomllib.load(open(os.getenv("$CONNECTION_FILE_PATH"), "rb"))["database"])')
 
           echo "DATABASE_NAME=$DATABASE_NAME"
           
