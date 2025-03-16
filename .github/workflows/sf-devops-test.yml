@@ -1,13 +1,3 @@
-config-version: 1
-
-# The root folder for the database change scripts
-root-folder: '/migrations/'
-
-connections-file-path: '/config/connections.toml'
-
-connection-name: 'myconnection'
-
-
 # Controls when the action will run. 
 on:
       
@@ -39,4 +29,4 @@ jobs:
           pip install schemachange
           
           echo "Step 2: Running schemachange"
-          schemachange deploy -f $GITHUB_WORKSPACE/migrations --create-change-history-table
+          schemachange deploy -f $GITHUB_WORKSPACE/migrations --connections-file-path: '/config/connections.toml' --connection-name: 'myconnection' --create-change-history-table
