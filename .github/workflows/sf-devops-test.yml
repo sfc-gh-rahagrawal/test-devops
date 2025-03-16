@@ -29,4 +29,4 @@ jobs:
           pip install schemachange
           
           echo "Step 2: Running schemachange"
-          schemachange deploy -f $GITHUB_WORKSPACE/migrations --connections-file-path '/config/connections.toml' --connection-name 'myconnection' --create-change-history-table
+          schemachange deploy -f $GITHUB_WORKSPACE/migrations --connections-file-path $GITHUB_WORKSPACE/config/connections.toml --connection-name 'myconnection' --create-change-history-table
