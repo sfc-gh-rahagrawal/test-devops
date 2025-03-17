@@ -27,4 +27,4 @@ jobs:
           pip install schemachange
           
           echo "Step 2: Running schemachange"
-          schemachange deploy -f $GITHUB_WORKSPACE/migrations --connections-file-path $CONNECTION_FILE_PATH --connection-name 'myconnection' -c $DATABASE_NAME.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --force
+          schemachange deploy -f $GITHUB_WORKSPACE/migrations --connections-file-path $CONNECTION_FILE_PATH --connection-name 'myconnection' -c $DATABASE_NAME.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --dry-run
